@@ -5,7 +5,7 @@ include("../includes/header.php")
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl text-emerald-600 font-bold text-center mb-4" id="form-title">Login</h2>
         
-        <form id="auth-form" action="../process/login.php" method="POST">
+        <form id="login-form" action="../process/login.php" method="POST">
             <input type="hidden" name="form_type" id="form_type" value="login">
             
             <div class="mb-4">
