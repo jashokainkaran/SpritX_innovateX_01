@@ -9,6 +9,8 @@ const matchError = document.getElementById("matchError");
 const strengthBar = document.getElementById("strength-bar");
 const submitButton = document.getElementById("submit");
 
+const errorContainer = document.getElementById("error-container");
+
 //Get password requirement elements
 const lengthCheck = document.getElementById("lengthCheck");
 const uppercaseCheck = document.getElementById("uppercaseCheck");
@@ -25,9 +27,35 @@ submitButton.disabled = true;
 signupForm.addEventListener("submit", function (event) {
     if (!validateForm()) {
         event.preventDefault(); // Prevent form submission if validation fails
+        // Display consolidated errors in the error container
+        displayConsolidatedErrors();
     }
 });
 
+// Function to display all validation errors in the error container
+function displayConsolidatedErrors() {
+    let errorMessages = [];
+    
+    // Collect all current error messages
+    if (nameError.innerHTML) {
+        errorMessages.push(nameError.innerHTML);
+    }
+    if (passwordError.textContent) {
+        errorMessages.push(passwordError.textContent);
+    }
+    if (matchError.innerHTML) {
+        errorMessages.push(matchError.innerHTML);
+    }
+    
+    // Display consolidated errors above the button
+    if (errorMessages.length > 0) {
+        errorContainer.innerHTML = errorMessages.map(msg => `<div class="text-red-500">${msg}</div>`).join('');
+        errorContainer.classList.remove('hidden');
+    } else {
+        errorContainer.innerHTML = '';
+        errorContainer.classList.add('hidden');
+    }
+}
 
 function validateForm() {
     // Run all validations before submission
@@ -39,7 +67,6 @@ function validateForm() {
     return usernameIsValid && passwordIsValid && confirmPasswordIsValid;
 }
 
-// MODIFIED: Improved checkAllFields to avoid circular references
 function checkAllFields() {
     console.log("Click function called");
 
@@ -51,8 +78,12 @@ function checkAllFields() {
     // Enable submit button only if all validations pass
     if (usernameValid && passwordValid && confirmPasswordValid) {
         submitButton.disabled = false;
+        errorContainer.innerHTML = '';
+        errorContainer.classList.add('hidden');
     } else {
         submitButton.disabled = true;
+        // Update consolidated errors
+        displayConsolidatedErrors();
     }
 }
 
@@ -62,6 +93,7 @@ function validateUsername() {
     if (username.length < 8) {
         nameError.innerHTML = "Username should be at least 8 characters long";
         submitButton.disabled = true; // Explicitly disable
+        displayConsolidatedErrors(); // Update error container
         return false;
     } else {
         nameError.innerHTML = "";
@@ -85,6 +117,7 @@ function checkUsernameUniqueness() {
             if (!response.unique) {
                 nameError.innerHTML = "Username already exists";
                 submitButton.disabled = true; // Disable submit button
+                displayConsolidatedErrors(); // Update error container
             } else {
                 nameError.innerHTML = "";
                 checkAllFields(); 
@@ -127,10 +160,12 @@ function validatePassword() {
     if (strength < 3) {
         passwordError.textContent = "Password is too weak.";
         submitButton.disabled = true; 
+        displayConsolidatedErrors(); // Update error container
         return false;
     } else if (strength < 5) {
         passwordError.textContent = "Fulfill all the requirements";
         submitButton.disabled = true; 
+        displayConsolidatedErrors(); // Update error container
         return false;
     } else {
         passwordError.textContent = "";
@@ -143,7 +178,8 @@ function validatePassword() {
 function validateConfirmPassword() {
     if (confirmPassword.value !== passwordInput.value) {
         matchError.innerHTML = "Passwords do not match.";
-        submitButton.disabled = true; 
+        submitButton.disabled = true;
+        displayConsolidatedErrors(); // Update error container
         return false;
     } else {
         matchError.innerHTML = "";
