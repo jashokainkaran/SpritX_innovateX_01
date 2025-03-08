@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'Login Page'; 
-include("../src/includes/header.php") 
+include("../includes/header.php") 
 ?>
 <body class="flex items-center justify-center h-screen bg-gray-100">
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
@@ -26,10 +26,10 @@ include("../src/includes/header.php")
 
         <p class="text-center mt-4 text-gray-600">
             <span id="toggle-text">New customer?</span>
-            <a href="../public/signup_form.php" id="toggle-form" class="text-primary">Sign up here</a>
+            <a href="../pages/signup_form.php" id="toggle-form" class="text-primary">Sign up here</a>
         </p>
     </div>
 
-    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
