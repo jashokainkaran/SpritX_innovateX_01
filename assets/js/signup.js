@@ -7,6 +7,7 @@ const nameError = document.getElementById("nameError");
 const passwordError = document.getElementById("passwordError");
 const matchError = document.getElementById("matchError");
 const strengthBar = document.getElementById("strength-bar");
+const submitButton = document.getElementById("submit");
 
 usernameInput.addEventListener("keyup", validateUsername);
 passwordInput.addEventListener("keyup", validatePassword);
@@ -46,15 +47,31 @@ function checkUsernameUniqueness() {
     xhr.send('username=' + encodeURIComponent(usernameInput.value));
 }
 
+//Validates password
 function validatePassword() {
     let password = passwordInput.value;
     let strength = 0;
 
-    if (password.length >= 8) strength++; // Check length
-    if (/[A-Z]/.test(password)) strength++; // Check uppercase
-    if (/[a-z]/.test(password)) strength++; // Check lowercase
-    if (/[0-9]/.test(password)) strength++; // Check number
-    if (/[^A-Za-z0-9]/.test(password)) strength++; // Check special character
+    // Check password criteria
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+    const isLongEnough = password.length >= 8;
+
+    // Update requirement indicators
+    updateRequirement(lengthCheck, isLongEnough);
+    updateRequirement(uppercaseCheck, hasUppercase);
+    updateRequirement(lowercaseCheck, hasLowercase);
+    updateRequirement(numberCheck, hasNumber);
+    updateRequirement(specialCharCheck, hasSpecialChar);
+
+    // Calculate password strength
+    if (isLongEnough) strength++;
+    if (hasUppercase) strength++;
+    if (hasLowercase) strength++;
+    if (hasNumber) strength++;
+    if (hasSpecialChar) strength++;
 
     // Update password strength bar
     const strengthLevels = ["w-1/5 bg-red-500", "w-2/5 bg-orange-500", "w-3/5 bg-yellow-500", "w-4/5 bg-blue-500", "w-full bg-green-500"];
@@ -62,7 +79,7 @@ function validatePassword() {
 
     // Show error message if password is weak
     if (strength < 3) {
-        passwordError.textContent = "Password is too weak. Add uppercase, numbers, and symbols.";
+        passwordError.textContent = "Password is too weak.";
         return false;
     } else {
         passwordError.textContent = "";
@@ -70,10 +87,34 @@ function validatePassword() {
     }
 }
 
+function validateConfirmPassword() {
+    if (confirmPassword.value !== passwordInput.value) {
+        matchError.innerHTML = "Passwords do not match.";
+        return false;
+    } else {
+        matchError.innerHTML = "";
+        return true;
+    }
+}
+
+//Validates and only submits if the fields arent empty
 function validateForm() {
     let isUsernameValid = validateUsername();
     let isPasswordValid = validatePassword();
     let isConfirmPasswordValid = validateConfirmPassword();
 
     return isUsernameValid && isPasswordValid && isConfirmPasswordValid;
+}
+
+//Updates the requirements in real time
+function updateRequirement(element, isMet) {
+    if (isMet) {
+        element.classList.remove("text-red-500");
+        element.classList.add("text-green-500");
+        element.innerHTML = "✅ " + element.dataset.text;
+    } else {
+        element.classList.remove("text-green-500");
+        element.classList.add("text-red-500");
+        element.innerHTML = "❌ " + element.dataset.text;
+    }
 }
