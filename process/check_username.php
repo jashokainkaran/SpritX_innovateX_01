@@ -27,7 +27,7 @@ error_log("Checking username: " . $username);
 $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM users WHERE username = ?");
 $stmt->bind_param("s", $username);
 
-// Added: Error handling for database operations
+// Error handling for database operations
 if (!$stmt->execute()) {
     echo json_encode(["error" => "Database error", "unique" => false]);
     exit;

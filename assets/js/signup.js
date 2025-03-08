@@ -9,7 +9,7 @@ const matchError = document.getElementById("matchError");
 const strengthBar = document.getElementById("strength-bar");
 const submitButton = document.getElementById("submit");
 
-// ADDED: Get password requirement elements
+//Get password requirement elements
 const lengthCheck = document.getElementById("lengthCheck");
 const uppercaseCheck = document.getElementById("uppercaseCheck");
 const lowercaseCheck = document.getElementById("lowercaseCheck");
@@ -28,7 +28,7 @@ signupForm.addEventListener("submit", function (event) {
     }
 });
 
-// ADDED: Missing validateForm function that was referenced in the submit event listener
+
 function validateForm() {
     // Run all validations before submission
     const usernameIsValid = validateUsername();
@@ -41,10 +41,9 @@ function validateForm() {
 
 // MODIFIED: Improved checkAllFields to avoid circular references
 function checkAllFields() {
-    // FIXED: Typo in comment
     console.log("Click function called");
 
-    // MODIFIED: Check current validation states without calling validation functions
+    //Check validations
     const usernameValid = usernameInput.value.trim().length >= 8 && nameError.innerHTML === "";
     const passwordValid = passwordError.textContent === "";
     const confirmPasswordValid = matchError.innerHTML === "";
@@ -57,7 +56,7 @@ function checkAllFields() {
     }
 }
 
-// MODIFIED: Improved validateUsername to work with checkAllFields
+//Validates usernames
 function validateUsername() {
     let username = usernameInput.value.trim();
     if (username.length < 8) {
@@ -71,9 +70,9 @@ function validateUsername() {
     }
 }
 
-// MODIFIED: Fixed missing username variable and added checkAllFields call
+//Validates and checks for username uniqueness
 function checkUsernameUniqueness() {
-    // ADDED: Define username variable from input
+    
     const username = usernameInput.value.trim();
 
     const xhr = new XMLHttpRequest();
@@ -85,17 +84,17 @@ function checkUsernameUniqueness() {
             const response = JSON.parse(this.responseText);
             if (!response.unique) {
                 nameError.innerHTML = "Username already exists";
-                submitButton.disabled = true; // Explicitly disable
+                submitButton.disabled = true; // Disable submit button
             } else {
                 nameError.innerHTML = "";
-                checkAllFields(); // ADDED: Update button state after response
+                checkAllFields(); 
             }
         }
     };
     xhr.send('username=' + encodeURIComponent(username));
 }
 
-// MODIFIED: Added explicit button disabling and proper checkAllFields call
+//Validates and checks passwords
 function validatePassword() {
     let password = passwordInput.value;
     let strength = 0;
@@ -107,7 +106,7 @@ function validatePassword() {
     const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
     const isLongEnough = password.length >= 8;
 
-    // Update requirement indicators
+    // Update requirements
     updateRequirement(lengthCheck, isLongEnough);
     updateRequirement(uppercaseCheck, hasUppercase);
     updateRequirement(lowercaseCheck, hasLowercase);
@@ -125,14 +124,13 @@ function validatePassword() {
     const strengthLevels = ["w-1/5 bg-red-500", "w-2/5 bg-orange-500", "w-3/5 bg-yellow-500", "w-4/5 bg-blue-500", "w-full bg-green-500"];
     strengthBar.className = `h-2 rounded-md ${strengthLevels[strength - 1] || "w-0 bg-gray-300"}`;
 
-    // MODIFIED: Added explicit button disabling
     if (strength < 3) {
         passwordError.textContent = "Password is too weak.";
-        submitButton.disabled = true; // Explicitly disable
+        submitButton.disabled = true; 
         return false;
     } else if (strength < 5) {
         passwordError.textContent = "Fulfill all the requirements";
-        submitButton.disabled = true; // Explicitly disable
+        submitButton.disabled = true; 
         return false;
     } else {
         passwordError.textContent = "";
@@ -141,20 +139,20 @@ function validatePassword() {
     }
 }
 
-// MODIFIED: Added explicit button disabling
+//Checks if both passwords match
 function validateConfirmPassword() {
     if (confirmPassword.value !== passwordInput.value) {
         matchError.innerHTML = "Passwords do not match.";
-        submitButton.disabled = true; // Explicitly disable
+        submitButton.disabled = true; 
         return false;
     } else {
         matchError.innerHTML = "";
-        checkAllFields(); // Check all fields at the end
+        checkAllFields();
         return true;
     }
 }
 
-// Unchanged: Updates the requirements in real time
+//Updates the requirements in real time
 function updateRequirement(element, isMet) {
     if (isMet) {
         element.classList.remove("text-red-500");

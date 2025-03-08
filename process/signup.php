@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     
-    // Added: Server-side validation
+    // Server-side validation
     if (strlen($username) < 8) {
         echo "<script>
                 alert('Username must be at least 8 characters long');
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     
-    // Added: Password complexity validation
+    // Password complexity validation
     if (strlen($password) < 8 || 
         !preg_match('/[A-Z]/', $password) || 
         !preg_match('/[a-z]/', $password) || 
@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ss", $username, $hashed_password);
        
         if ($stmt->execute()) {
-            // Modified: Added timeout and removed extra quote
             echo "<script>
                 alert('Registered Successfully');
                 setTimeout(function() {
