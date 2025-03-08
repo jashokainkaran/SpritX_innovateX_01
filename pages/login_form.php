@@ -10,15 +10,17 @@ include("../includes/header.php")
             
             <div class="mb-4">
                 <label class="block text-gray-700">Username</label>
-                <input type="text" name="username" required class="w-full px-3 py-2 border rounded-lg">
+                <input type="textbox" name="username" id="username" required class="w-full px-3 py-2 border rounded-lg">
+                <p id="nameError" class="text-red-500 text-sm mt-1 font-semibold"></p>
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-700">Password</label>
-                <input type="password" name="password" required class="w-full px-3 py-2 border rounded-lg">
+                <input type="password" name="password" id="password" required class="w-full px-3 py-2 border rounded-lg">
+                <p id="passwordError" class="text-red-500 text-sm mt-1 font-semibold"></p>
             </div>
 
-            <button type="submit" class="w-full bg-emerald-600 text-white font-semibold py-2 rounded-lg mt-2 hover:bg-emerald-500 transition duration-200">
+            <button type="submit" id="submit" class="w-full bg-emerald-600 text-white font-semibold py-2 rounded-lg mt-2 hover:bg-emerald-500 transition duration-200">
                 Login
             </button>
         </form>
@@ -29,6 +31,6 @@ include("../includes/header.php")
         </p>
     </div>
 
-    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/login.js"></script>
 </body>
 </html>
