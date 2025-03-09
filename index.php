@@ -17,13 +17,13 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <p class="text-lg mb-6">Protecting Your Identity, Simplifying Access</p>
         <?php if ($isLoggedIn): ?>
             <p class="text-xl mb-6">Hello, <span class="font-bold text-emerald-600"><?php echo htmlspecialchars($_SESSION['username']); ?></span>! We're glad to see you again.</p>
-            <form action="../process/logout.php" method="POST">
+            <form action="process/logout.php" method="POST">
                 <button class="px-6 py-3 bg-emerald-500 text-emerald-800 font-bold rounded-full shadow-lg cursor-pointer transition duration-300 ease-in-out hover:scale-110 hover:text-white">
                     Logout
                 </button>
             </form>
         <?php else: ?>
-                <a href="../pages/login_form.php"><button class="px-6 py-3 bg-emerald-500 text-emerald-800 font-bold rounded-full shadow-lg cursor-pointer transition duration-300 ease-in-out hover:scale-110 hover:text-white">
+                <a href="pages/login_form.php"><button class="px-6 py-3 bg-emerald-500 text-emerald-800 font-bold rounded-full shadow-lg cursor-pointer transition duration-300 ease-in-out hover:scale-110 hover:text-white">
                     Log In
                 </button></a>
         <?php endif; ?>
