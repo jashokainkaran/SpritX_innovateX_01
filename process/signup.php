@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../includes/db.php");
+include("includes\db.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If there are errors, redirect back with error messages
     if (!empty($errors)) {
         $_SESSION['signup_errors'] = $errors;
-        header('Location: ../pages/signup_form.php');
+        header('Location: pages\signup_form.php');
         exit();
     }
     
@@ -62,11 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['toast_type'] = "success";
         
         // Redirect to a success page 
-        header('Location: ../pages/success_page.php');
+        header('Location: pages\success_page.php');
         exit();
     } else {
         $_SESSION['signup_errors'] = ['Registration failed: ' . $stmt->error];
-        header('Location: ../pages/signup_form.php');
+        header('Location: pages\signup_form.php');
         exit();
     }
     
