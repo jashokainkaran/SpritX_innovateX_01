@@ -1,5 +1,6 @@
 Setting Up the MySQL Database
-1Create a New Database
+
+Create a New Database
 Open phpMyAdmin.
 Create a new database (e.g., ProjectDB).
 
